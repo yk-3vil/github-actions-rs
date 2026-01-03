@@ -1,22 +1,45 @@
+# Rust CI Workflow
 name: Rust
 
+# トリガー定義
+# mainブランチへのpushおよびpull_requestで起動
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
+# 環境変数設定
 env:
   CARGO_TERM_COLOR: always
+  RUSTFLAGS: "-Dwarnings"
 
+# ワークフローに設定するデフォルト設定等
+defaults:
+  run:
+    shell: bash
+
+# Jobs定義
 jobs:
   build:
-
-    runs-on: ubuntu-latest
+    # ジョブの実行環境
+    runs-on: ubuntu-22.04
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Build
-      run: cargo build --verbose
-    - name: Run tests
-      run: cargo test --verbose
+      - uses: actions/checkout@v6
+
+      # ビルドジョブ
+      - name: Build
+        run: cargo build --release --verbose
+
+      # テストジョブ
+      - name: Run tests
+        run: cargo test --verbose
+
+      # Lintジョブ
+      - name: Lint with Clippy
+        run: cargo clippy --all-targets --all-features
+
+      # フォーマットチェックジョブ
+      - name: Check code formatting
+        run: cargo fmt --all --check
