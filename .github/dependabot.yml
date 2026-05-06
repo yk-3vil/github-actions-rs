@@ -1,0 +1,26 @@
+# Dependabot 設定
+# GitHub Actions の依存関係を自動的に監視・更新
+# https://docs.github.com/en/code-security/reference/supply-chain-security/dependabot-options-reference
+
+version: 2
+updates:
+  # GitHub Actions の依存関係更新
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    # スケジュールの間隔
+    # cron式も利用できる
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Tokyo"
+    # pull requestの上限
+    open-pull-requests-limit: 10
+    # コミット規約に沿った接頭辞
+    commit-message:
+      prefix: "chore(actions)"
+      include: "scope"
+    # 付与するlabel
+    labels:
+      - "dependencies"
+      - "github-actions"
