@@ -23,4 +23,3 @@ updates:
     # 付与するlabel
     labels:
       - "dependencies"
-      - "github-actions"
